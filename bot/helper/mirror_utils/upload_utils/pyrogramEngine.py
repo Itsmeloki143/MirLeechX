@@ -102,7 +102,7 @@ class TgUploader:
                     if self.message.chat.type == 'private':
                         time.sleep(1)
                     else:
-                        time.sleep(10)
+                        time.sleep(3)
                         copymsg = bot.copy_message(chat_id=f"{LOG_CHANNEL_ID}", from_chat_id=self.chat_id, message_id=self.sent_msg.id, disable_notification=True)   
                 elif filee.upper().endswith(AUDIO_SUFFIXES):
                     duration , artist, title = get_media_info(up_path)
@@ -118,7 +118,7 @@ class TgUploader:
                     if self.message.chat.type == 'private':
                         time.sleep(1)
                     else:
-                        time.sleep(10)
+                        time.sleep(3)
                         copymsg = bot.copy_message(chat_id=f"{LOG_CHANNEL_ID}", from_chat_id=self.chat_id, message_id=self.sent_msg.id, disable_notification=True)
                 elif filee.upper().endswith(IMAGE_SUFFIXES):
                     self.sent_msg = self.sent_msg.reply_photo(photo=up_path,
@@ -129,7 +129,7 @@ class TgUploader:
                     if self.message.chat.type == 'private':
                         time.sleep(1)
                     else:
-                        time.sleep(10)
+                        time.sleep(3)
                         copymsg = bot.copy_message(chat_id=f"{LOG_CHANNEL_ID}", from_chat_id=self.chat_id, message_id=self.sent_msg.id, disable_notification=True)
                 else:
                     notMedia = True
@@ -148,7 +148,7 @@ class TgUploader:
                 if self.message.chat.type == 'private':
                     time.sleep(1)
                 else:
-                    time.sleep(10)
+                    time.sleep(3)
                     copymsg = bot.copy_message(chat_id=f"{LOG_CHANNEL_ID}", from_chat_id=self.chat_id, message_id=self.sent_msg.id, disable_notification=True)
 
         except FloodWait as f:
