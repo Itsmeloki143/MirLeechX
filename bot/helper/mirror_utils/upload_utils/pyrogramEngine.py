@@ -99,7 +99,7 @@ class TgUploader:
                                                               disable_notification=True,
                                                               progress=self.upload_progress)
                     time.sleep(10)
-                    copymsg = bot.copy_message(chat_id=f"{LOG_CHANNEL_ID}", from_chat_id=self.chat_id, message_id=self.sent_msg.message_id, disable_notification=True)
+                    copymsg = bot.copy_message(chat_id=f"{LOG_CHANNEL_ID}", from_chat_id=self.chat_id, message_id=self.sent_msg.id, disable_notification=True)
                 elif filee.upper().endswith(AUDIO_SUFFIXES):
                     duration , artist, title = get_media_info(up_path)
                     self.sent_msg = self.sent_msg.reply_audio(audio=up_path,
@@ -112,7 +112,7 @@ class TgUploader:
                                                               disable_notification=True,
                                                               progress=self.upload_progress)
                     time.sleep(10)
-                    copymsg = bot.copy_message(chat_id=f"{LOG_CHANNEL_ID}", from_chat_id=self.chat_id, message_id=self.sent_msg.message_id, disable_notification=True)
+                    copymsg = bot.copy_message(chat_id=f"{LOG_CHANNEL_ID}", from_chat_id=self.chat_id, message_id=self.sent_msg.id, disable_notification=True)
                 elif filee.upper().endswith(IMAGE_SUFFIXES):
                     self.sent_msg = self.sent_msg.reply_photo(photo=up_path,
                                                               quote=True,
@@ -120,7 +120,7 @@ class TgUploader:
                                                               disable_notification=True,
                                                               progress=self.upload_progress)
                     time.sleep(10)
-                    copymsg = bot.copy_message(chat_id=f"{LOG_CHANNEL_ID}", from_chat_id=self.chat_id, message_id=self.sent_msg.message_id, disable_notification=True)
+                    copymsg = bot.copy_message(chat_id=f"{LOG_CHANNEL_ID}", from_chat_id=self.chat_id, message_id=self.sent_msg.id, disable_notification=True)
                 else:
                     notMedia = True
             if self.as_doc or notMedia:
@@ -136,7 +136,7 @@ class TgUploader:
                                                              disable_notification=True,
                                                              progress=self.upload_progress)
                 time.sleep(10)
-                copymsg = bot.copy_message(chat_id=f"{LOG_CHANNEL_ID}", from_chat_id=self.chat_id, message_id=self.sent_msg.message_id, disable_notification=True)
+                copymsg = bot.copy_message(chat_id=f"{LOG_CHANNEL_ID}", from_chat_id=self.chat_id, message_id=self.sent_msg.id, disable_notification=True)
 
         except FloodWait as f:
             LOGGER.info(f)
