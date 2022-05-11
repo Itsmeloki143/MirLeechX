@@ -36,6 +36,7 @@ class TgUploader:
         self.as_doc = AS_DOCUMENT
         self.thumb = f"Thumbnails/{self.user_id}.jpg"
         self.sent_msg = self.__app.get_messages(self.chat_id, self.message_id)
+        self.message = listener.message
 
     def upload(self):
         msgs_dict = {}
@@ -56,7 +57,7 @@ class TgUploader:
                 self.upload_file(up_path, filee, dirpath)
                 if self.is_cancelled:
                     return
-                msgs_dict[filee] = self.sent_msg.message_id
+                msgs_dict[filee] = self.sent_msg.id
                 self.last_uploaded = 0
                 time.sleep(1.5)
         LOGGER.info(f"Leech Done: {self.name}")
@@ -98,8 +99,11 @@ class TgUploader:
                                                               supports_streaming=True,
                                                               disable_notification=True,
                                                               progress=self.upload_progress)
-                    time.sleep(10)
-                    copymsg = bot.copy_message(chat_id=f"{LOG_CHANNEL_ID}", from_chat_id=self.chat_id, message_id=self.sent_msg.id, disable_notification=True)
+                    if self.message.chat.type == 'private':
+                        continue
+                    else:
+                        time.sleep(10)
+                        copymsg = bot.copy_message(chat_id=f"{LOG_CHANNEL_ID}", from_chat_id=self.chat_id, message_id=self.sent_msg.id, disable_notification=True)   
                 elif filee.upper().endswith(AUDIO_SUFFIXES):
                     duration , artist, title = get_media_info(up_path)
                     self.sent_msg = self.sent_msg.reply_audio(audio=up_path,
@@ -111,16 +115,22 @@ class TgUploader:
                                                               thumb=thumb,
                                                               disable_notification=True,
                                                               progress=self.upload_progress)
-                    time.sleep(10)
-                    copymsg = bot.copy_message(chat_id=f"{LOG_CHANNEL_ID}", from_chat_id=self.chat_id, message_id=self.sent_msg.id, disable_notification=True)
+                    if self.message.chat.type == 'private':
+                        continue
+                    else:
+                        time.sleep(10)
+                        copymsg = bot.copy_message(chat_id=f"{LOG_CHANNEL_ID}", from_chat_id=self.chat_id, message_id=self.sent_msg.id, disable_notification=True)
                 elif filee.upper().endswith(IMAGE_SUFFIXES):
                     self.sent_msg = self.sent_msg.reply_photo(photo=up_path,
                                                               quote=True,
                                                               caption=cap_mono,
                                                               disable_notification=True,
                                                               progress=self.upload_progress)
-                    time.sleep(10)
-                    copymsg = bot.copy_message(chat_id=f"{LOG_CHANNEL_ID}", from_chat_id=self.chat_id, message_id=self.sent_msg.id, disable_notification=True)
+                    if self.message.chat.type == 'private':
+                        continue
+                    else:
+                        time.sleep(10)
+                        copymsg = bot.copy_message(chat_id=f"{LOG_CHANNEL_ID}", from_chat_id=self.chat_id, message_id=self.sent_msg.id, disable_notification=True)
                 else:
                     notMedia = True
             if self.as_doc or notMedia:
@@ -135,8 +145,11 @@ class TgUploader:
                                                              caption=cap_mono,
                                                              disable_notification=True,
                                                              progress=self.upload_progress)
-                time.sleep(10)
-                copymsg = bot.copy_message(chat_id=f"{LOG_CHANNEL_ID}", from_chat_id=self.chat_id, message_id=self.sent_msg.id, disable_notification=True)
+                if self.message.chat.type == 'private':
+                    continue
+                else:
+                    time.sleep(10)
+                    copymsg = bot.copy_message(chat_id=f"{LOG_CHANNEL_ID}", from_chat_id=self.chat_id, message_id=self.sent_msg.id, disable_notification=True)
 
         except FloodWait as f:
             LOGGER.info(f)
